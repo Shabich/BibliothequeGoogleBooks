@@ -1,3 +1,4 @@
+//pour avoir le mdp oublié
 <?php
 include 'db.php';
 ?>
