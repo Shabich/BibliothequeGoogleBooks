@@ -1,3 +1,4 @@
+//création d'un objet pour le mail
 <?php
 
 try
