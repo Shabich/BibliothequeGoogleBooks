@@ -1,3 +1,4 @@
+//pour le mot de passe oublié 
 <?php
 include 'db.php';
 ?>
