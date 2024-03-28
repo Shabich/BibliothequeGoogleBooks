@@ -13,7 +13,7 @@
 <header>
 <nav>
             <div class="logo">
-                <a href="first-view.php">MonSite</a>
+                <a href="first-view.php">Bibliotektok</a>
             </div>
             <ul class="nav-links">
                 <li><a href="signup-view.php">Sign-up</a></li>

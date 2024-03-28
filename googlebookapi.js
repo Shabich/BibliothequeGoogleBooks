@@ -32,21 +32,78 @@ function displayResults(data) {
             const authors = item.volumeInfo.authors ? item.volumeInfo.authors.join(", ") : "Auteur inconnu";
             const categories = item.volumeInfo.categories ? item.volumeInfo.categories.join(", ") : "Catégorie inconnue";
             const thumbnail = item.volumeInfo.imageLinks ? item.volumeInfo.imageLinks.thumbnail : "https://via.placeholder.com/128x196?text=Image+non+disponible";
+            const description = item.volumeInfo.description ? item.volumeInfo.description : "Pas de description disponible";
 
             const bookDiv = document.createElement("div");
             bookDiv.innerHTML = `
-                <h2>${title}</h2>
-                <img src="${thumbnail}" alt="${title}" style="width: 128px; height: 196px;">
-                <p>Auteur(s): ${authors}</p>
-                <p>Catégorie(s): ${categories}</p>
-                
-            `;
+    <h2>${title}</h2>
+    <img src="${thumbnail}" alt="${title}" style="width: 128px; height: 196px;">
+    <p>Auteur(s): ${authors}</p>
+    <p>Catégorie(s): ${categories}</p>
+    <button onclick="toggleDescription(this)">Voir la description</button>
+    <div class="description" style="display: none;">
+        <p>${description}</p>
 
+    </div>
+`;
+
+const addToFavoritesBtn = document.createElement("button");
+addToFavoritesBtn.textContent = "Ajouter aux favoris";
+addToFavoritesBtn.addEventListener("click", function() {
+    addToFavorites(item);
+});
+bookDiv.appendChild(addToFavoritesBtn);
             resultsDiv.appendChild(bookDiv);
         });
     } else {
         resultsDiv.innerHTML = "<p>Aucun livre trouvé.</p>";
     }
 }
+toggleDescription = (button) => {
+    const description = button.nextElementSibling;
+    if (description.style.display === "none") {
+        description.style.display = "block";
+        button.textContent = "Masquer la description";
+    } else {
+        description.style.display = "none";
+        button.textContent = "Voir la description";
+    }
+}
 
 
+function addToFavorites(item) {
+    const title = item.volumeInfo.title;
+    const authors = item.volumeInfo.authors ? item.volumeInfo.authors.join(", ") : "Auteur inconnu";
+    const categories = item.volumeInfo.categories ? item.volumeInfo.categories.join(", ") : "Catégorie inconnue";
+    const thumbnail = item.volumeInfo.imageLinks ? item.volumeInfo.imageLinks.thumbnail : "https://via.placeholder.com/128x196?text=Image+non+disponible";
+    const description = item.volumeInfo.description ? item.volumeInfo.description : "Pas de description disponible";
+
+    const book = {
+        title: title,
+        authors: authors,
+        categories: categories,
+        thumbnail: thumbnail,
+        description: description
+    };
+
+    fetch('http://localhost/PHP/bibliotektok/favorite.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(book),
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log(data);
+        if (data.status === 'valide') {
+            console.log('Livre ajouté aux favoris avec succès !');
+        } else {
+            console.log('Erreur lors de l\'ajout du livre aux favoris.');
+        }
+    })
+    .catch(error => {
+        console.error('Erreur:', error);
+        alert('Une erreur est survenue lors de l\'ajout du livre aux favoris.');
+    });
+}
