@@ -1,6 +1,9 @@
 <?php
-include_once "../header.php";
+include_once "header.php";
 ?>
+<li><a href="profile.php">profile</a></li>
+</ul>
+        </nav>
 </header>
 <input type="text" id="searchInput" placeholder="Entrez le titre du livre ou le nom de la catégorie" class="input-dark red">
 <select id="categorySelect" class="input-dark blue">
@@ -20,8 +23,8 @@ include_once "../header.php";
 <div id="results" class="results-grid"></div>
 
 
-<script src="../apps.js" defer></script>
+<script src="apps.js" defer></script>
 
 <?php
-include_once "../footer.php";
+include_once "footer.php";
 ?>

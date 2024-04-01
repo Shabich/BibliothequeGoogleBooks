@@ -35,7 +35,7 @@ if ($stmt->execute() === TRUE) {
     $response = array("status" => "error", "message" => "Erreur lors de l'ajout du livre: " . $stmt->error);
 }
 
-echo json_encode($response);
+
 
 $stmt->close();
 $conn->close();

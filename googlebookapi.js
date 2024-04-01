@@ -70,7 +70,14 @@ toggleDescription = (button) => {
     }
 }
 
-
+function toggleFavorites() {
+    const favoritesDiv = document.getElementById("favorites");
+    if (favoritesDiv.style.display === "flex" || favoritesDiv.style.display === "") {
+        favoritesDiv.style.display = "none";
+    } else {
+        favoritesDiv.style.display = "flex";
+    }
+}
 function addToFavorites(item) {
     const title = item.volumeInfo.title;
     const authors = item.volumeInfo.authors ? item.volumeInfo.authors.join(", ") : "Auteur inconnu";
