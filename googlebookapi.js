@@ -35,6 +35,7 @@ function displayResults(data) {
             const description = item.volumeInfo.description ? item.volumeInfo.description : "Pas de description disponible";
 
             const bookDiv = document.createElement("div");
+            bookDiv.className = "bookorder";
             bookDiv.innerHTML = `
     <h2>${title}</h2>
     <img src="${thumbnail}" alt="${title}" style="width: 128px; height: 196px;">
@@ -93,7 +94,7 @@ function addToFavorites(item) {
         description: description
     };
 
-    fetch('http://localhost/PHP/bibliotektok/favorite.php', {
+    fetch('http://localhost:5500/favorite.php', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -105,12 +106,35 @@ function addToFavorites(item) {
         console.log(data);
         if (data.status === 'valide') {
             console.log('Livre ajouté aux favoris avec succès !');
-        } else {
-            console.log('Erreur lors de l\'ajout du livre aux favoris.');
         }
     })
     .catch(error => {
         console.error('Erreur:', error);
-        alert('Une erreur est survenue lors de l\'ajout du livre aux favoris.');
+        // alert('Une erreur est survenue lors de l\'ajout du livre aux favoris.');
+    });
+}
+function deleteFavorite(bookId) {
+    fetch(`http://localhost:5500/favorite.php`, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: `id=${bookId}`,
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log(data);
+        if (data.status === 'valide') {
+            console.log('Livre supprimé des favoris avec succès !');
+            // Supprimer l'élément du DOM
+            const favoriteItem = document.getElementById(`favorite-${bookId}`);
+            if (favoriteItem) {
+                favoriteItem.remove();
+            }
+        }
+    })
+    .catch(error => {
+        console.error('Erreur:', error);
+        // alert('Une erreur est survenue lors de la suppression du livre des favoris.');
     });
 }
